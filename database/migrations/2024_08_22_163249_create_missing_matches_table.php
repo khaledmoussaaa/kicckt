@@ -11,16 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('staduims', function (Blueprint $table) {
+        Schema::create('missing_matches', function (Blueprint $table) {
             $table->id();
-
-            $table->string('staduim_name');
-            $table->string('area')->nullable();
-            $table->string('location')->nullable();
-            $table->enum('players_number', [12, 14, 18, 22])->default(12);
-            $table->integer('sales')->default(0);
-            $table->double('price');
-
+            $table->foreignId('match_id')->constrained('match_games');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }
@@ -30,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('staduims');
+        Schema::dropIfExists('missing_matches');
     }
 };

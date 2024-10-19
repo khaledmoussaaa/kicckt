@@ -13,7 +13,7 @@ class AdsController extends Controller
      */
     public function index()
     {
-        $ads = Ads::get();
+        $ads = Ads::paginate(10);
         return contentResponse($ads);
     }
 

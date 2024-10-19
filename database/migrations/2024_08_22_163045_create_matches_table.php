@@ -20,9 +20,10 @@ return new class extends Migration
             $table->time('time_to');
             $table->integer('red_goals')->default(0);
             $table->integer('purple_goals')->default(0);
+            $table->integer('joining_numbers')->default(0);
             $table->foreignId('man_of_the_match')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('staduim_id')->constrained('staduims')->onDelete('cascade');
-            
+
             $table->timestamps();
 
             // Add a unique constraint for the combination of date, time_from, time_to, and staduim_id

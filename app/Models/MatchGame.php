@@ -16,6 +16,7 @@ class MatchGame extends BaseModel
         'time_to',
         'red_goals',
         'purble_goals',
+        'joining_numbers',
         'man_of_the_match',
         'staduim_id',
     ];

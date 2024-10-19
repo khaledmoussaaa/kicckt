@@ -4,7 +4,7 @@ namespace App\Http\Requests\Games;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FinishMatchRequest extends FormRequest
+class EndFinishMatchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,9 @@ class FinishMatchRequest extends FormRequest
         return [
             'purple_goals' => 'required|integer',
             'red_goals' => 'required|integer',
-            'man_of_the_match' => 'required|exists:users,id',
-            'google_drive_link' => 'required|url',
+            'man_of_the_match' => 'nullable|exists:users,id',
+            'google_drive_link' => 'nullable|url',
+            'match_id' => 'required|integer|exists:match_games,id',
         ];
     }
 }

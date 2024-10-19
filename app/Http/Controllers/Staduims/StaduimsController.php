@@ -9,13 +9,12 @@ use App\Models\Staduim;
 class StaduimsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Index a newly created resource in storage.
      */
     public function index()
     {
-        // Show all staduims
-        $staduims = Staduim::get();
-        return contentResponse($staduims);
+        $staduims = Staduim::paginate(10);
+        return contentResponse($staduims->load('media'));
     }
 
     /**
@@ -23,9 +22,8 @@ class StaduimsController extends Controller
      */
     public function store(StduimRequest $request)
     {
-        // Create new staduim
         $staduim = Staduim::create($request->validated());
-        if($request->hasFile('media')){
+        if ($request->hasFile('media')) {
             $staduim->addMediaFromRequest('media')->toMediaCollection('staduims');
         }
         return messageResponse();
@@ -36,27 +34,16 @@ class StaduimsController extends Controller
      */
     public function show(Staduim $staduim)
     {
-        // Show staduim
-        $staduim->getFirstMedia('staduims');
-        return contentResponse($staduim);
+        return contentResponse($staduim->load('media'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Staduim $staduim)
-    {
-        // Edit staduim
-        return contentResponse($staduim);
-    }
     /**
      * Update the specified resource in storage.
      */
     public function update(StduimRequest $request, Staduim $staduim)
     {
-        // Update staduim
         $staduim->update($request->validated());
-        if($request->hasFile('media')){
+        if ($request->hasFile('media')) {
             $staduim->addMediaFromRequest('media')->toMediaCollection('staduims');
         }
         return messageResponse();
@@ -67,7 +54,6 @@ class StaduimsController extends Controller
      */
     public function destroy(Staduim $staduim)
     {
-        // Delete staduim
         $staduim->forceDelete();
         return messageResponse();
     }

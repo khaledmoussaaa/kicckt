@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use App\Rules\CheckUserBlock;
+use App\Rules\UserSocialite;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest
@@ -24,17 +25,8 @@ class LoginRequest extends FormRequest
     {
         return [
             // Login Validations
-            'email' => ['sometimes', 'email:filter', 'exists:users,email', new CheckUserBlock()],
-            'social_id' => ['sometimes', 'exists:users,social_id', new CheckUserBlock()],
-            'password' => 'required|min:8',
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'email.exists' => 'The email or password not correct',
-            'social_id.exists' => 'The email or password not correct',
+            'email' => ['sometimes', 'email:filter', new UserSocialite($this->social_id)],
+            'social_id' => ['required', new CheckUserBlock()],
         ];
     }
 }

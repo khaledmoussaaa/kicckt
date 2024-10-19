@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Khaled Moussa',
         //     'email' => 'Khaledmoussa202@gmail.com',
         //     'phone' => '01015571129',
-        //     'password' => '24001091Km'
+        //     'social_id' => '123456789'
         // ]);
 
         User::factory()->count(10)->create();

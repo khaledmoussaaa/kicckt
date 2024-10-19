@@ -2,10 +2,12 @@
 
 // For Auth Response
 if (!function_exists('authResponse')) {
-    function authResponse($token = null, $message = 'success', $success = true, $status = 200)
+    function authResponse($token = null, $isNew = false, $message = 'success', $success = true, $status = 200)
     {
         return response()->json([
+            'user_id' => auth_id(),
             'token' => $token,
+            'isNew' => $isNew,
             'success' => $success,
             'message' => $message,
             'status' => $status,
@@ -18,12 +20,31 @@ if (!function_exists('authResponse')) {
 if (!function_exists('contentResponse')) {
     function contentResponse($content, $message = 'success', $success = true, $status = 200)
     {
-        return response()->json([
+        $response = [
             'content' => $content,
             'success' => $success,
             'message' => $message,
             'status' => $status,
-        ], $status);
+        ];
+
+        // If pagination data is passed, include it in the response
+        if ($content instanceof \Illuminate\Pagination\LengthAwarePaginator || $content instanceof \Illuminate\Pagination\Paginator) {
+            $response['content'] = $content->items();
+
+            $response['pagination'] = [
+                'total_rows' => $content->total(),
+                'per_page' => $content->perPage(),
+                'current_page' => $content->currentPage(),
+                'last_page' => $content->lastPage(),
+                'from' => $content->firstItem(),
+                'to' => $content->lastItem(),
+                'first_page_url' => $content->url(1),
+                'next_page_url' => $content->nextPageUrl(),
+                'pervious_page_url' => $content->previousPageUrl(1),
+            ];
+        }
+
+        return response()->json($response, $status);
     }
 }
 

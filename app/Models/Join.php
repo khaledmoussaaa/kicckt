@@ -16,6 +16,7 @@ class Join extends Model
      */
     protected $fillable = [
         'team_color',
+        'status',
         'match_id',
         'user_id',
     ];

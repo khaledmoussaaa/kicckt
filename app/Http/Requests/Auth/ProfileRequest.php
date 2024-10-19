@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Games;
+namespace App\Http\Requests\Auth;
 
-use App\Rules\UserNotInAnotherGame;
 use Illuminate\Foundation\Http\FormRequest;
 
-class JoinRequest extends FormRequest
+class ProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +22,10 @@ class JoinRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // Validations for joining in new match
-            'match_id' => ['required', 'integer', 'exists:match_games,id'],
-            'team_color' => 'required|in:red,purple',
+            // Register Validations
+            'media' => 'nullable|image',
+            'name' => 'required|string|min:3|max:30',
+            'phone' => 'required|min:9|max:14|unique:users,phone',
         ];
     }
 }

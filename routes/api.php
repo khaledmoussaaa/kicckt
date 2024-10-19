@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Optimization\CacheController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,7 +12,6 @@ Route::group(['middleware' => 'api'], function () {
     // Authuntication
     Route::group(['prefix' => 'auth'], function () {
         Route::post('login', 'Auth\AuthController@login');
-        Route::post('register', 'Auth\AuthController@register');
         Route::post('/password/forget', 'Auth\AuthController@forgetPassowrd')->name('password.email');
         Route::post('/password/reset', 'Auth\AuthController@resetPassword')->name('password.reset');
     });
@@ -22,42 +20,42 @@ Route::group(['middleware' => 'api'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
         // About User
         Route::group(['prefix' => 'auth'], function () {
+            Route::post('profile', 'Auth\AuthController@profile');
             Route::post('me', 'Auth\AuthController@me');
             Route::post('refresh', 'Auth\AuthController@refresh');
             Route::post('logout', 'Auth\AuthController@logout');
-            Route::post('blocked/{user}', 'Auth\AuthController@blockedUser');
+            Route::post('block', 'Auth\AuthController@blocked');
         });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin API Routes
+        |--------------------------------------------------------------------------
+        */
+        // Staduims
+        Route::apiResource('staduims', 'Staduims\StaduimsController');
+        Route::post('staduims/{staduim}', 'Staduims\StaduimsController@update')->name('staduims.update');;
+
+        /*
+        |--------------------------------------------------------------------------
+        | User API Routes
+        |--------------------------------------------------------------------------
+        */
+        // Matches
+        Route::apiResource('matches', 'Matches\MatchController');
+        Route::post('matches/start/finish', 'Matches\FinishMatchController@startFinishMatch');
+        Route::post('matches/end/finish/{match}', 'Matches\FinishMatchController@endFinishMatch');
+
+        // Joins
+        Route::apiResource('joins', 'Players\JoinController');
+        Route::get('joins/team/{match_id}/{team_color}', 'Players\JoinController@index')->name('joins.index');
+        Route::put('joins/replace/{player_1}/{player_2}', 'Players\JoinController@update')->name('joins.update');
+
+        // Players
+        Route::get('player/months/{date}', 'Players\PlayerMonthController@playerMonths');
+        Route::apiResource('statistics', 'Matches\StatisticController');
+
+        // Ads
+        Route::apiResource('ads', 'Ads\AdsController');
     });
 });
-
-/*
-|--------------------------------------------------------------------------
-| Admin API Routes
-|--------------------------------------------------------------------------
-*/
-// Staduims
-Route::apiResource('staduims', 'Staduims\StaduimsController');
-Route::post('staduims/{staduim}', 'Staduims\StaduimsController@update')->name('staduims.update');;
-
-/*
-|--------------------------------------------------------------------------
-| User API Routes
-|--------------------------------------------------------------------------
-*/
-// Matches
-Route::apiResource('matches', 'Games\MatchController');
-Route::post('matches/finish/{match}', 'Games\MatchController@finishMatch');
-
-// Joins
-Route::apiResource('joins', 'Games\JoinController');
-Route::get('joins/team/{match_id}/{team_color}', 'Games\JoinController@index')->name('joins.index');
-Route::put('joins/replace/{player_1}/{player_2}', 'Games\JoinController@update')->name('joins.update');
-
-// Ads
-Route::apiResource('ads', 'Ads\AdsController');
-
-// Statistics
-Route::apiResource('statistics', 'Games\StatisticController');
-
-// Statistics
-Route::get('player/months/{date}', 'Games\PlayerMonthController@playerMonths');

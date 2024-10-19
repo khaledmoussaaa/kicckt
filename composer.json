@@ -33,7 +33,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/ResponseFormat.php"
+            "app/Helpers/ResponseFormat.php",
+            "app/Helpers/GlobalVariables.php"
         ]
     },
     "autoload-dev": {
