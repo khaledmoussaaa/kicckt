@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('missing_matches', function (Blueprint $table) {
+        Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('match_id')->constrained('match_games');
             $table->foreignId('user_id')->constrained('users');
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('missing_matches');
+        Schema::dropIfExists('profiles');
     }
 };

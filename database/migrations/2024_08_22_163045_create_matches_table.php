@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('purple_goals')->default(0);
             $table->integer('joining_numbers')->default(0);
             $table->foreignId('man_of_the_match')->nullable()->constrained('users')->onDelete('cascade');
+            $table->enum('status',['pending', 'playing', 'finished'])->default('pending');
             $table->foreignId('staduim_id')->constrained('staduims')->onDelete('cascade');
 
             $table->timestamps();

@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
 
             $table->enum('team_color', ['red', 'purple']);
-            $table->enum('status', ['joining', 'waiting'])->default('joining');
-
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('match_id')->constrained('match_games')->onDelete('cascade');
 
