@@ -27,7 +27,7 @@ class MatchGame extends BaseModel
      * @var array<string, string>
      */
     protected $casts = [
-        'date' => 'datetime:D-m-y',
+        'date' => 'datetime:d.m.y',
     ];
 
     // ======================= Relationships ======================= //
