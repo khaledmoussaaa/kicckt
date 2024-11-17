@@ -13,7 +13,7 @@ class MatchController extends Controller
      */
     public function index()
     {
-        $matches = MatchGame::with(['staduim.media.original_url', 'joins'])->paginate(10);
+        $matches = MatchGame::with(['staduim.media:original_url', 'joins'])->paginate(10);
         return contentResponse($matches);
     }
 
