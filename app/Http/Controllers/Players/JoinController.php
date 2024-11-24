@@ -29,7 +29,7 @@ class JoinController extends Controller
             $joining->update(['status' => 'waiting']);
         }
         $match->increment('joining_numbers');
-        return messageResponse();
+        return contentResponse(['join_id' => $joining->id]);
     }
 
     public function update(Join $player_1, Join $player_2)
