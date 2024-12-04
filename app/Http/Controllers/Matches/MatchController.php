@@ -5,19 +5,23 @@ namespace App\Http\Controllers\Matches;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Games\MatchRequest;
 use App\Models\MatchGame;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class MatchController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $matches = MatchGame::with(['staduim', 'joins.players.media.getUrl'])->get();
-        $matches->map(function ($match) {
-            return $match->joins->transform(function ($join) {
+        $date = $request->date ? Carbon::parse($request->date) : Carbon::now();
+        $matches = MatchGame::with(['staduim', 'joins.players.media.getUrl'])->whereDate('date', $date)->paginate(10);
+        $matches->getCollection()->transform(function ($match) {
+            $match->joins = $match->joins->transform(function ($join) {
                 return $join->players;
             });
+            return $match->load('staduim');
         });
         return contentResponse($matches);
     }

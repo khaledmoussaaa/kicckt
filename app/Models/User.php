@@ -82,10 +82,14 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     }
 
     // ======================= Relationships ======================= //
-
     // User -> Has a PlayerMonths
     public function player_months()
     {
         return $this->hasMany(PlayerMonth::class);
+    }
+
+    public function statistics()
+    {
+        return $this->hasMany(Statistic::class);
     }
 }

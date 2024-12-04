@@ -21,8 +21,7 @@ class DatabaseSeeder extends Seeder
         //     'social_id' => '123456789'
         // ]);
 
-        User::factory()->count(10)->create();
+        // User::factory()->count(10)->create();
         Join::factory()->count(10)->create();
     }
-
 }

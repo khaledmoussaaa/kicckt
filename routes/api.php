@@ -52,7 +52,7 @@ Route::group(['middleware' => 'api'], function () {
         Route::put('joins/replace/{player_1}/{player_2}', 'Players\JoinController@update')->name('joins.update');
 
         // Players
-        Route::get('player/months/{date}', 'Players\PlayerMonthController@playerMonths');
+        Route::get('player/months/{date}/{type}', 'Players\PlayerMonthController@playerMonths');
         Route::apiResource('statistics', 'Matches\StatisticController');
 
         // Ads

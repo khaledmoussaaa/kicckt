@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class PlayerMonthController extends Controller
 {
-    public function playerMonths($date)
+    public function playerMonths($date, $type)
     {
         $date = Carbon::parse($date);
 
@@ -23,9 +23,9 @@ class PlayerMonthController extends Controller
                 $query->whereMonth('created_at', $date);
             }])->get()->sortBy('name')->values();
         } else {
-            $playerMonths = $players->load('player_months')->sortByDesc(function ($user) {
-                return $user->player_months->sum('points');
-            })->values();;
+            $playerMonths = $players->load('player_months')->sortByDesc(function ($user) use ($type) {
+                return $user->player_months->sum($type);
+            })->values();
         }
 
         // Transform to assign ranks to users
