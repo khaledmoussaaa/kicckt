@@ -31,7 +31,6 @@ class MatchGame extends BaseModel
     ];
 
     // ======================= Relationships ======================= //
-
     // Staduim -> For each match has one staduim and for each staduim has many matches
     public function staduim()
     {

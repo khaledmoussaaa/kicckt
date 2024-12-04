@@ -17,17 +17,7 @@ class PlayerMonth extends BaseModel
         'user_id',
     ];
 
-    // /**
-    //  * The attributes that should be hidden for serialization.
-    //  *
-    //  * @var array<int, string>
-    //  */
-    // protected $hidden = [
-    //     'created_at',
-    //     'updated_at',
-    // ];
     // ======================= Relationships ======================= //
-
     // User -> For each match belongs to user
     public function user()
     {

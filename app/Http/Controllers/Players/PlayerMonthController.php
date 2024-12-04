@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Players;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Players\PlayerPrizesRequest;
+use App\Models\Prize;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -15,7 +17,7 @@ class PlayerMonthController extends Controller
         // Retrieve users with their player_months for the specified month
         $players = User::whereHas('player_months', function ($query) use ($date) {
             $query->whereMonth('created_at', $date);
-        })->get();
+        })->with('media.getUrl')->get();
 
         // Check if there are no player_months for the month
         if ($players->isEmpty()) {
@@ -50,4 +52,6 @@ class PlayerMonthController extends Controller
 
         return contentResponse($topUsers);
     }
+
+ 
 }

@@ -2,13 +2,8 @@
 
 namespace App\Models;
 
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-
-class Staduim extends BaseModel implements HasMedia
+class Staduim extends BaseModel
 {
-    use InteractsWithMedia;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -23,7 +18,6 @@ class Staduim extends BaseModel implements HasMedia
     ];
 
     // ======================= Relationships ======================= //
-
     // Matches -> For each staduim has many matches and for each match belong to one staduim
     public function macthes()
     {

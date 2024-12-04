@@ -2,23 +2,24 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Guest API Routes
-|--------------------------------------------------------------------------
-*/
-
 Route::group(['middleware' => 'api'], function () {
-    // Authuntication
+    /*
+    |--------------------------------------------------------------------------
+    | Authuntication API Routes
+    |--------------------------------------------------------------------------
+    */
     Route::group(['prefix' => 'auth'], function () {
         Route::post('login', 'Auth\AuthController@login');
         Route::post('/password/forget', 'Auth\AuthController@forgetPassowrd')->name('password.email');
         Route::post('/password/reset', 'Auth\AuthController@resetPassword')->name('password.reset');
     });
 
-    // Authorizations
+    /*
+    |--------------------------------------------------------------------------
+    | Authorizations API Routes
+    |--------------------------------------------------------------------------
+    */
     Route::group(['middleware' => 'auth:api'], function () {
-        // About User
         Route::group(['prefix' => 'auth'], function () {
             Route::post('profile', 'Auth\AuthController@profile');
             Route::post('me', 'Auth\AuthController@me');
@@ -27,20 +28,14 @@ Route::group(['middleware' => 'api'], function () {
             Route::post('block', 'Auth\AuthController@blocked');
         });
 
-        /*
-        |--------------------------------------------------------------------------
-        | Admin API Routes
-        |--------------------------------------------------------------------------
-        */
+        // Users
+        Route::apiResource('users', 'Users\UserController');
+        Route::post('users/{user}', 'Staduims\UserController@update')->name('users.update');;
+
         // Staduims
         Route::apiResource('staduims', 'Staduims\StaduimsController');
         Route::post('staduims/{staduim}', 'Staduims\StaduimsController@update')->name('staduims.update');;
 
-        /*
-        |--------------------------------------------------------------------------
-        | User API Routes
-        |--------------------------------------------------------------------------
-        */
         // Matches
         Route::apiResource('matches', 'Matches\MatchController');
         Route::post('matches/start/finish', 'Matches\FinishMatchController@startFinishMatch');
@@ -54,6 +49,9 @@ Route::group(['middleware' => 'api'], function () {
         // Players
         Route::get('player/months/{date}/{type}', 'Players\PlayerMonthController@playerMonths');
         Route::apiResource('statistics', 'Matches\StatisticController');
+
+        // Prizes
+        Route::apiResource('prizes', 'Prizes\PrizeController');
 
         // Ads
         Route::apiResource('ads', 'Ads\AdsController');

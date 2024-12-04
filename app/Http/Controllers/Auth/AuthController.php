@@ -8,7 +8,6 @@ use App\Http\Requests\Auth\BlockRequest;
 // Requests
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\ProfileRequest;
-
 // Models
 use App\Models\User;
 
@@ -29,7 +28,7 @@ class AuthController extends Controller
         if ($request->hasFile('media')) {
             $user->addMediaFromRequest('media')->toMediaCollection('avatar');
         }
-        return messageResponse('Profile Created Successfully');
+        return messageResponse();
     }
 
     // Get the authenticated User.
@@ -38,25 +37,25 @@ class AuthController extends Controller
         return contentResponse(auth()->user());
     }
 
-    // Log the user out (Invalidate the token).
-    public function logout()
-    {
-        auth()->logout();
-        return messageResponse('Logged out successfully');
-    }
-
     // Refresh a token.
     public function refresh()
     {
         return contentResponse(auth()->refresh());
     }
 
-    // Get a token by id
+    // Block Or Unblock User
     public function blocked(BlockRequest $request)
     {
         $user = User::withTrashed()->find($request->validated('user_id'));
         $blocked = $user->deleted_at ? 'User Unblocked' : 'User Blocked';
         $user->deleted_at ? $user->restore() : $user->delete();
         return messageResponse($blocked);
+    }
+
+    // Logout the user (Invalidate the token).
+    public function logout()
+    {
+        auth()->logout();
+        return messageResponse('Logged out successfully');
     }
 }

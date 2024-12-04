@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Ads extends BaseModel
+class Prize extends BaseModel
 {
     /**
      * The attributes that are mass assignable.
@@ -10,14 +10,13 @@ class Ads extends BaseModel
      * @var array<int, string>
      */
     protected $fillable = [
-        'title',
-        'url',
+        'user_id',
     ];
 
     // ======================= Spate Media Library ======================= //
     // Staduim Media Collection
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('ads')->singleFile();
+        $this->addMediaCollection('beautiful_goal')->singleFile();
     }
 }

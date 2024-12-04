@@ -6,11 +6,12 @@ use App\Casts\DateTimeCasting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class BaseModel extends Model
+class BaseModel extends Model implements HasMedia
 {
-    use HasFactory, Notifiable;
-
+    use HasFactory, Notifiable, InteractsWithMedia;
     /**
      * The default attributes that should be cast.
      * These will be merged with the model-specific casts.

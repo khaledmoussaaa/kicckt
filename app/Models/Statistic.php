@@ -18,7 +18,6 @@ class Statistic extends BaseModel
     ];
 
     // ======================= Relationships ======================= //
-
     // User -> For each match belongs to user
     public function user()
     {
