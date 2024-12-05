@@ -30,7 +30,7 @@ Route::group(['middleware' => 'api'], function () {
 
         // Users
         Route::apiResource('users', 'Users\UserController');
-        Route::post('users/{user}', 'Staduims\UserController@update')->name('users.update');;
+        Route::post('users/{user}', 'Users\UserController@update')->name('users.update');;
 
         // Staduims
         Route::apiResource('staduims', 'Staduims\StaduimsController');
@@ -40,6 +40,7 @@ Route::group(['middleware' => 'api'], function () {
         Route::apiResource('matches', 'Matches\MatchController');
         Route::post('matches/start/finish', 'Matches\FinishMatchController@startFinishMatch');
         Route::post('matches/end/finish/{match}', 'Matches\FinishMatchController@endFinishMatch');
+        Route::get('previous/matches', 'Matches\MatchController@pervious');
 
         // Joins
         Route::apiResource('joins', 'Players\JoinController');

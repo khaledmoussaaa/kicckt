@@ -20,6 +20,7 @@ class FinishMatchController extends Controller
         foreach ($joins as $join) {
             $statistic = Statistic::create(array_merge($request->validated(), ['user_id' => $join->user_id]));
         }
+        $match = MatchGame::find($request->validated('match_id'))->update(['is_finished' => true]);
         return messageResponse();
     }
 

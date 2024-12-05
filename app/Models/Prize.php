@@ -13,6 +13,13 @@ class Prize extends BaseModel
         'user_id',
     ];
 
+    // ======================= Relationships ======================= //
+    // User -> For each match belongs to user
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     // ======================= Spate Media Library ======================= //
     // Staduim Media Collection
     public function registerMediaCollections(): void

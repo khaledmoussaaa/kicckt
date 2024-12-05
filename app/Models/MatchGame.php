@@ -18,7 +18,9 @@ class MatchGame extends BaseModel
         'purble_goals',
         'joining_numbers',
         'man_of_the_match',
+        'google_drive_link',
         'staduim_id',
+        'is_finished'
     ];
 
     /**

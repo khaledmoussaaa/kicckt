@@ -16,7 +16,25 @@ class MatchController extends Controller
     public function index(Request $request)
     {
         $date = $request->date ? Carbon::parse($request->date) : Carbon::now();
-        $matches = MatchGame::with(['staduim', 'joins.players.media.getUrl'])->whereDate('date', $date)->paginate(10);
+        $matches = MatchGame::with(['joins.players.media'])->whereDate('date', $date)->paginate(10);
+        $matches->getCollection()->transform(function ($match) {
+            $match->joins = $match->joins->transform(function ($join) {
+                return $join->players;
+            });
+            return $match->load('staduim');
+        });
+        return contentResponse($matches);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function pervious()
+    {
+        $matches = MatchGame::with(['joins.players.media'])->whereHas('joins.players', function ($query) {
+            $query->where('user_id', auth_id());
+        })->paginate(10);
+
         $matches->getCollection()->transform(function ($match) {
             $match->joins = $match->joins->transform(function ($join) {
                 return $join->players;
@@ -31,7 +49,7 @@ class MatchController extends Controller
      */
     public function show(MatchGame $match)
     {
-        $match = $match->load('staduim', 'joins.players.media.getUrl');
+        $match = $match->load('joins.players.media');
         $match->joins->transform(function ($join) {
             $join->players->team_color = $join->team_color;
             $join->players->join_id = $join->id;

@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('phone')->nullable()->unique();
             $table->integer('joining_numbers')->default(0);
             $table->integer('missing_numbers')->default(0);
-            
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->softDeletes();

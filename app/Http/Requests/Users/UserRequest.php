@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Ads;
+namespace App\Http\Requests\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdsRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,9 @@ class AdsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'media' => 'sometimes|image',
-            'title' => 'nullable|string',
-            'url' => 'required|url'
+            'media' => 'nullable|image',
+            'name' => 'required|string',
+            'phone' => 'required|string|unique:users,phone,' . auth_id(),
         ];
     }
 }

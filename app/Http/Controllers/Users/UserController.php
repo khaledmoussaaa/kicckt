@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Users\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -13,16 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10);
+        $users = User::with('media')->paginate(11);
         return contentResponse($users);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -30,23 +23,19 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return contentResponse($user->load('media.getUrl'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return contentResponse($user->load('media'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request)
     {
-        //
+        auth_user()->update($request->validated());
+        if($request->hasFile('media')){
+            auth_user()->addMediaFromRequest('media')->toMediaCollection('avatar');
+        }
+        return messageResponse();
     }
 
     /**

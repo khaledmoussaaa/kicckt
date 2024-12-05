@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Prizes;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Players\PlayerPrizesRequest;
+use App\Models\PlayerMonth;
 use App\Models\Prize;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PrizeController extends Controller
@@ -14,7 +16,27 @@ class PrizeController extends Controller
      */
     public function index()
     {
-        //
+        $date = Carbon::now();
+
+        $currentPlayer = auth_user()->load(['media', 'player_months' => function ($query) use ($date) {
+            $query->whereMonth('created_at', $date);
+        }]);
+        $playerOfPoints = PlayerMonth::with('user.media')->whereMonth('created_at', $date)->orderByDesc('points')->first();
+        $playerOfGoals = PlayerMonth::with('user.media')->whereMonth('created_at', $date)->orderByDesc('goals')->first();
+        $playerOfAssists = PlayerMonth::with('user.media')->whereMonth('created_at', $date)->orderByDesc('assists')->first();
+        $playerOfGoalKeeper = PlayerMonth::with('user.media')->whereMonth('created_at', $date)->orderByDesc('goal_keeper')->first();
+        $playerOfLastMonth = Prize::with(['media', 'user'])->get();
+
+        $prizes = [
+            'current_player' => $currentPlayer,
+            'player_top_points' => $playerOfPoints,
+            'player_top_goals' => $playerOfGoals,
+            'player_top_assists' => $playerOfAssists,
+            'player_top_goal_keeper' => $playerOfGoalKeeper,
+            'player_last_month' => $playerOfLastMonth,
+        ];
+
+        return contentResponse($prizes);
     }
 
     /**

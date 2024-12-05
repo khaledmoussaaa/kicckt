@@ -18,6 +18,7 @@ class Staduim extends BaseModel
     ];
 
     // ======================= Relationships ======================= //
+
     // Matches -> For each staduim has many matches and for each match belong to one staduim
     public function macthes()
     {
