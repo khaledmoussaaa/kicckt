@@ -31,7 +31,7 @@ class MatchController extends Controller
      */
     public function pervious()
     {
-        $matches = MatchGame::with(['joins.players.media'])->whereHas('joins.players', function ($query) {
+        $matches = MatchGame::with(['joins.players.media'])->where('is_finished', 1)->whereHas('joins.players', function ($query) {
             $query->where('user_id', auth_id());
         })->paginate(10);
 
@@ -49,7 +49,7 @@ class MatchController extends Controller
      */
     public function show(MatchGame $match)
     {
-        $match = $match->load('joins.players.media');
+        $match = $match->load('staduim', 'joins.players.media');
         $match->joins->transform(function ($join) {
             $join->players->team_color = $join->team_color;
             $join->players->join_id = $join->id;

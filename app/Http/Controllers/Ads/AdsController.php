@@ -13,7 +13,7 @@ class AdsController extends Controller
      */
     public function index()
     {
-        $ads = Ads::paginate(10);
+        $ads = Ads::get();
         return contentResponse($ads);
     }
 
@@ -22,7 +22,7 @@ class AdsController extends Controller
      */
     public function store(AdsRequest $request)
     {
-        $ads = Ads::create($request->validated());
+        $ad = Ads::create($request->validated());
         return messageResponse();
     }
 
@@ -37,18 +37,18 @@ class AdsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AdsRequest $request, Ads $ads)
+    public function update(AdsRequest $request, Ads $ad)
     {
-        $ads->update($request->validated());
+        $ad->update($request->validated());
         return messageResponse();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ads $ads)
+    public function destroy(Ads $ad)
     {
-        $ads->forceDelete();
+        $ad->forceDelete();
         return messageResponse();
     }
 }
