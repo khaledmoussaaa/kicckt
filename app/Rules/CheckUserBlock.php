@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\DB;
@@ -19,8 +20,7 @@ class CheckUserBlock implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         // Query to check if the user is blocked
-        $user = DB::table('users')->where('email', $value)->first();
-
+        $user = User::withTrashed()->where('social_id', $value)->first();
         if ($user && $user->deleted_at) {
             // If the user is blocked, return an error message
             $fail('Your account has been restricted due to guideline violations. Please contact support if you believe this is a mistake.');

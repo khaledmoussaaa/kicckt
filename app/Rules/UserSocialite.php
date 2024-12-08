@@ -25,12 +25,9 @@ class UserSocialite implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $user = User::where('social_id', $this->social_id)->exists();
-        if ($user) {
-            $user = User::where('email', $value)->where('social_id', $this->social_id)->exists();
-            if (!$user) {
-                $fail('Error occured during authinitcated');
-            }
+        $user = User::withTrashed()->where(['social_id' => $this->social_id, 'email' => $value])->first();
+        if ($user && $user->deleted_at) {
+            $fail('Your account has been restricted due to guideline violations. Please contact support if you believe this is a mistake.');
         }
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Auth;
 
-use App\Rules\CheckUserBlock;
 use App\Rules\UserSocialite;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,7 +25,19 @@ class LoginRequest extends FormRequest
         return [
             // Login Validations
             'email' => ['sometimes', 'email:filter', new UserSocialite($this->social_id)],
-            'social_id' => ['required', new CheckUserBlock()],
+            'social_id' => 'required',
+        ];
+    }
+
+    /**
+     * Customize the attributes for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'social_id' => 'Account',
         ];
     }
 }

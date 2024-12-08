@@ -2,12 +2,12 @@
 
 // For Auth Response
 if (!function_exists('authResponse')) {
-    function authResponse($token = null, $isNew = false, $message = 'success', $success = true, $status = 200)
+    function authResponse($token = null, $message = 'success', $success = true, $status = 200)
     {
         return response()->json([
             'user_id' => auth_id(),
             'token' => $token,
-            'isNew' => $isNew,
+            'isNew' => auth()->user()->wasRecentlyCreated,
             'success' => $success,
             'message' => $message,
             'status' => $status,
