@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Users;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\UserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -14,15 +13,20 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('media')->paginate(11);
+        $users = User::withTrashed()->with('media')->paginate(10);
+        $users->transform(function ($user) {
+            $user->blocked = $user->deleted_at ? true : false;
+            return $user;
+        });
         return contentResponse($users);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show($id)
     {
+        $user = User::withTrashed()->find($id);
         return contentResponse($user->load('media'));
     }
 
@@ -32,7 +36,7 @@ class UserController extends Controller
     public function update(UserRequest $request)
     {
         auth_user()->update($request->validated());
-        if($request->hasFile('media')){
+        if ($request->hasFile('media')) {
             auth_user()->addMediaFromRequest('media')->toMediaCollection('avatar');
         }
         return messageResponse();

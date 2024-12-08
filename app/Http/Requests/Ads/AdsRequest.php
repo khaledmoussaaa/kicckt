@@ -24,7 +24,7 @@ class AdsRequest extends FormRequest
         return [
             'media' => 'sometimes|image',
             'title' => 'nullable|string',
-            'url' => 'required|url'
+            'url' => 'required_without:media|url'
         ];
     }
 }
