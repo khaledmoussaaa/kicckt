@@ -23,7 +23,7 @@ class StduimRequest extends FormRequest
     {
         return [
             // Validations for creating new stduim
-            'media' => 'required|image',
+            'media' => 'nullable|image',
             'staduim_name' => 'required|string|max:100',
             'area' => 'required|string',
             'location' => 'required|url',
