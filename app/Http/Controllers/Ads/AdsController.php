@@ -23,6 +23,9 @@ class AdsController extends Controller
     public function store(AdsRequest $request)
     {
         $ad = Ads::create($request->validated());
+        if($request->hasFile('media')){
+            $ad->addMediaFromRequest('media')->toMediaCollection('ads');
+        }
         return messageResponse();
     }
 
@@ -40,6 +43,9 @@ class AdsController extends Controller
     public function update(AdsRequest $request, Ads $ad)
     {
         $ad->update($request->validated());
+        if($request->hasFile('media')){
+            $ad->addMediaFromRequest('media')->toMediaCollection('ads');
+        }
         return messageResponse();
     }
 

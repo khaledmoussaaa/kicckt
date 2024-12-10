@@ -22,7 +22,7 @@ class AdsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'media' => 'sometimes|image',
+            'media' => 'nullable|image',
             'title' => 'nullable|string',
             'url' => 'required_without:media|url'
         ];
