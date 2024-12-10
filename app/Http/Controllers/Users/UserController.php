@@ -15,29 +15,22 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $query = User::query();
-    
+
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('phone', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
             });
         }
         if ($request->type == 'blocks') {
-            $query->withTrashed();
+            $query->onlyTrashed();
         }
         $users = $query->with('media')->paginate(10);
-        if ($request->type == 'blocks') {
-            $users->getCollection()->transform(function ($user) {
-                $user->blocked = $user->deleted_at ? true : false;
-                return $user;
-            });
-        }
-    
         return contentResponse($users);
     }
-    
+
 
     /**
      * Display the specified resource.
