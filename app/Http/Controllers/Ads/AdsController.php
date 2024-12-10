@@ -13,7 +13,7 @@ class AdsController extends Controller
      */
     public function index()
     {
-        $ads = Ads::get();
+        $ads = Ads::with('media')->get();
         return contentResponse($ads);
     }
 
@@ -31,7 +31,7 @@ class AdsController extends Controller
      */
     public function show(Ads $ads)
     {
-        return contentResponse($ads);
+        return contentResponse($ads->load('media'));
     }
 
     /**

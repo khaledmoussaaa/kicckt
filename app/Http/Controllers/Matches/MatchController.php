@@ -21,7 +21,7 @@ class MatchController extends Controller
             $match->joins = $match->joins->transform(function ($join) {
                 return $join->players;
             });
-            return $match->load('staduim');
+            return $match->load('staduim.media');
         });
         return contentResponse($matches);
     }
