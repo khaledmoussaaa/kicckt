@@ -56,5 +56,7 @@ Route::group(['middleware' => 'api'], function () {
 
         // Ads
         Route::apiResource('ads', 'Ads\AdsController');
+        Route::post('ads/{ad}', 'Ads\AdsController@update')->name('ads.update');;
+
     });
 });

@@ -34,7 +34,7 @@ class AuthController extends Controller
     // Get the authenticated User.
     public function me()
     {
-        return contentResponse(auth()->user());
+        return contentResponse(auth()->user()->getMedia('avatar'));
     }
 
     // Refresh a token.
