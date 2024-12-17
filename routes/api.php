@@ -49,7 +49,10 @@ Route::group(['middleware' => 'api'], function () {
 
         // Players
         Route::get('player/months/{date}/{type}', 'Players\PlayerMonthController@playerMonths');
+
+        // Statistics Match
         Route::apiResource('statistics', 'Matches\StatisticController');
+        Route::get('statistics/match/{match}', 'Matches\StatisticController@index')->name('statistics.index');
 
         // Prizes
         Route::apiResource('prizes', 'Prizes\PrizeController');
@@ -57,6 +60,5 @@ Route::group(['middleware' => 'api'], function () {
         // Ads
         Route::apiResource('ads', 'Ads\AdsController');
         Route::post('ads/{ad}', 'Ads\AdsController@update')->name('ads.update');;
-
     });
 });

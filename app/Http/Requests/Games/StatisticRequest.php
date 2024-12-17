@@ -25,8 +25,7 @@ class StatisticRequest extends FormRequest
             'goals' => 'sometimes|integer',
             'assists' => 'sometimes|integer',
             'goal_keeper' => 'sometimes|integer',
-            'user_id' => 'required|integer|exists:users,id',
-            'match_id' => 'required|integer|exists:match_games,id'
+            'statistic_id' => 'required|integer|exists:statistics,id'
         ];
     }
 }

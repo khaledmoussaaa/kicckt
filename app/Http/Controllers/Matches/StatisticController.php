@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Matches;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Games\StatisticRequest;
+use App\Models\MatchGame;
 use App\Models\PlayerMonth;
 use App\Models\Statistic;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class StatisticController extends Controller
@@ -13,9 +15,9 @@ class StatisticController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(MatchGame $match)
     {
-        $statistics = Statistic::with('user')->paginate(10);
+        $statistics = Statistic::where('match_id', $match->id)->with('user')->paginate(10);
         return contentResponse($statistics);
     }
 
@@ -30,10 +32,11 @@ class StatisticController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StatisticRequest $request, Statistic $statistic)
+    public function store(StatisticRequest $request)
     {
-        DB::transaction(function () use ($request, $statistic) {
-            $player_month = PlayerMonth::firstOrCreate(['user_id' => $request->user_id]);
+        DB::transaction(function () use ($request) {
+            $statistic = Statistic::find($request->statistic_id);
+            $player_month = PlayerMonth::firstOrCreate(['user_id' => $statistic->user_id]);
 
             if ($player_month) {
                 $newGoals = ($request->goals ?? 0) - $player_month->goals;
