@@ -7,6 +7,7 @@ if (!function_exists('authResponse')) {
         return response()->json([
             'user_id' => auth_id(),
             'token' => $token,
+            'role' => auth_user()->roles[0]->name ?? 'user',
             'isNew' => auth()->user()->wasRecentlyCreated,
             'success' => $success,
             'message' => $message,

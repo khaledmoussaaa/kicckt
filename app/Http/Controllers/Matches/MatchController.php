@@ -39,7 +39,7 @@ class MatchController extends Controller
             $match->joins = $match->joins->transform(function ($join) {
                 return $join->players;
             });
-            return $match->load('staduim');
+            return $match->load('staduim.media');
         });
         return contentResponse($matches);
     }
@@ -49,7 +49,7 @@ class MatchController extends Controller
      */
     public function show(MatchGame $match)
     {
-        $match = $match->load('staduim', 'joins.players.media');
+        $match = $match->load('staduim.media', 'joins.players.media');
         $match->joins->transform(function ($join) {
             $join->players->team_color = $join->team_color;
             $join->players->join_id = $join->id;

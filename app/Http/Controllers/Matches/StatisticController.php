@@ -15,9 +15,9 @@ class StatisticController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(MatchGame $match)
+    public function index(Request $request)
     {
-        $statistics = Statistic::where('match_id', $match->id)->with('user')->paginate(10);
+        $statistics = Statistic::where('match_id', $request->match_id)->with('user.media')->paginate(10);
         return contentResponse($statistics);
     }
 

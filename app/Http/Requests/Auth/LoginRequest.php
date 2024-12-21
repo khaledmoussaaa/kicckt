@@ -24,20 +24,8 @@ class LoginRequest extends FormRequest
     {
         return [
             // Login Validations
-            'email' => ['sometimes', 'email:filter', new UserSocialite($this->social_id)],
-            'social_id' => 'required',
-        ];
-    }
-
-    /**
-     * Customize the attributes for validator errors.
-     *
-     * @return array<string, string>
-     */
-    public function attributes(): array
-    {
-        return [
-            'social_id' => 'Account',
+            'email' => ['sometimes', 'email:filter', new UserSocialite()],
+            'social_id' => ['required', new UserSocialite()],
         ];
     }
 }

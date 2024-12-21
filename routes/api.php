@@ -52,7 +52,6 @@ Route::group(['middleware' => 'api'], function () {
 
         // Statistics Match
         Route::apiResource('statistics', 'Matches\StatisticController');
-        Route::get('statistics/match/{match}', 'Matches\StatisticController@index')->name('statistics.index');
 
         // Prizes
         Route::apiResource('prizes', 'Prizes\PrizeController');
