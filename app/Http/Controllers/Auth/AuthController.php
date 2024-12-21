@@ -26,7 +26,7 @@ class AuthController extends Controller
     {
         $user = auth_user()->update($request->validated());
         if ($request->hasFile('media')) {
-            $user->addMediaFromRequest('media')->toMediaCollection('avatar');
+            auth_user()->addMediaFromRequest('media')->toMediaCollection('avatar');
         }
         return messageResponse();
     }
