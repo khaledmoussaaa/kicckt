@@ -17,7 +17,7 @@ class UserSocialite implements ValidationRule
     {
         $user = User::withTrashed()->where($attribute, $value)->first();
         if ($user && $user->deleted_at) {
-            $fail('Your account has been restricted due to guideline violations. Please contact support if you believe this is a mistake.');
+            $fail('blocked');
         }
     }
 }
