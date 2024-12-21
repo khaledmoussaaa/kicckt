@@ -25,9 +25,7 @@ class AuthController extends Controller
     public function profile(ProfileRequest $request)
     {
         $user = auth_user()->update($request->validated());
-        if ($request->hasFile('media')) {
-            auth_user()->addMediaFromRequest('media')->toMediaCollection('avatar');
-        }
+        add_media($user, $request, 'avatar');
         return messageResponse();
     }
 

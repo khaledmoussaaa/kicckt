@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Matches;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Games\EndFinishMatchRequest;
 use App\Http\Requests\Games\MatchRequest;
+use App\Http\Requests\Games\StartFinishMatchRequest;
+use App\Models\Join;
 use App\Models\MatchGame;
+use App\Models\Statistic;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -16,13 +20,7 @@ class MatchController extends Controller
     public function index(Request $request)
     {
         $date = $request->date ? Carbon::parse($request->date) : Carbon::now();
-        $matches = MatchGame::with(['joins.players.media'])->whereDate('date', $date)->paginate(10);
-        $matches->getCollection()->transform(function ($match) {
-            $match->joins = $match->joins->transform(function ($join) {
-                return $join->players;
-            });
-            return $match->load('staduim.media');
-        });
+        $matches = MatchGame::getMatches($date);
         return contentResponse($matches);
     }
 
@@ -31,16 +29,8 @@ class MatchController extends Controller
      */
     public function pervious()
     {
-        $matches = MatchGame::with(['joins.players.media'])->where('is_finished', 1)->whereHas('joins.players', function ($query) {
-            $query->where('user_id', auth_id());
-        })->paginate(10);
-
-        $matches->getCollection()->transform(function ($match) {
-            $match->joins = $match->joins->transform(function ($join) {
-                return $join->players;
-            });
-            return $match->load('staduim.media');
-        });
+        $userId = auth_id();
+        $matches = MatchGame::getMatches(null, true, $userId);
         return contentResponse($matches);
     }
 
@@ -73,6 +63,28 @@ class MatchController extends Controller
     public function update(MatchRequest $request, MatchGame $match)
     {
         $match->update($request->validated());
+        return messageResponse();
+    }
+
+    /**
+     * Start Finish Match.
+     */
+    public function startFinishMatch(StartFinishMatchRequest $request)
+    {
+        $joins = Join::where('match_id', $request->match_id)->get();
+        foreach ($joins as $join) {
+            $statistic = Statistic::create(array_merge($request->validated(), ['user_id' => $join->user_id]));
+        }
+        $match = MatchGame::find($request->validated('match_id'))->update(['is_finished' => true]);
+        return messageResponse();
+    }
+
+    /**
+     * End Finish Match.
+     */
+    public function endFinishMatch(EndFinishMatchRequest $request)
+    {
+        $match = MatchGame::find($request->validated('match_id'))->update($request->validated());
         return messageResponse();
     }
 

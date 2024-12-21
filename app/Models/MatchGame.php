@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+
 class MatchGame extends BaseModel
 {
     /**
@@ -43,5 +46,43 @@ class MatchGame extends BaseModel
     public function joins()
     {
         return $this->hasMany(Join::class, 'match_id');
+    }
+
+
+    // Method to retrieve and transform the matches
+    public static function getMatches($date = null, $isFinished = null, $userId = null)
+    {
+        // If a date is passed, use it; otherwise, use the current date
+        $date = $date ? Carbon::parse($date) : Carbon::now();
+
+        // Build the query
+        $query = self::with(['joins.players.media', 'staduim.media'])
+            ->whereDate('date', $date);
+
+        // Apply the "is_finished" filter if provided
+        if ($isFinished !== null) {
+            $query->where('is_finished', $isFinished);
+        }
+
+        // Apply the user filter if provided (for the "previous" method)
+        if ($userId) {
+            $query->whereHas('joins.players', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            });
+        }
+
+        // Paginate the results
+        $matches = $query->paginate(10);
+
+        // Transform the collection
+        $matches->getCollection()->transform(function ($match) {
+            $match->joins = $match->joins->transform(function ($join) {
+                return $join->players;
+            });
+
+            return $match;
+        });
+
+        return $matches;
     }
 }

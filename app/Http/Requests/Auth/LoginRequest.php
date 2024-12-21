@@ -24,7 +24,7 @@ class LoginRequest extends FormRequest
     {
         return [
             // Login Validations
-            'email' => ['sometimes', 'email:filter'],
+            'email' => ['sometimes', 'email:filter', new UserSocialite()],
             'social_id' => ['required'],
         ];
     }

@@ -38,8 +38,8 @@ Route::group(['middleware' => 'api'], function () {
 
         // Matches
         Route::apiResource('matches', 'Matches\MatchController');
-        Route::post('matches/start/finish', 'Matches\FinishMatchController@startFinishMatch');
-        Route::post('matches/end/finish/{match}', 'Matches\FinishMatchController@endFinishMatch');
+        Route::post('matches/start/finish', 'Matches\MatchController@startFinishMatch');
+        Route::post('matches/end/finish/{match}', 'Matches\MatchController@endFinishMatch');
         Route::get('previous/matches', 'Matches\MatchController@pervious');
 
         // Joins
