@@ -25,7 +25,7 @@ class PrizeController extends Controller
         $playerOfGoals = PlayerMonth::with('user.media')->whereMonth('created_at', $date)->orderByDesc('goals')->first();
         $playerOfAssists = PlayerMonth::with('user.media')->whereMonth('created_at', $date)->orderByDesc('assists')->first();
         $playerOfGoalKeeper = PlayerMonth::with('user.media')->whereMonth('created_at', $date)->orderByDesc('goal_keeper')->first();
-        $playerOfLastMonth = Prize::with(['media', 'user'])->get();
+        $playerOfLastMonth = Prize::with(['media', 'user.media'])->get();
 
         $prizes = [
             'current_player' => $currentPlayer,

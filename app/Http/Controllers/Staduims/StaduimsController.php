@@ -23,9 +23,7 @@ class StaduimsController extends Controller
     public function store(StduimRequest $request)
     {
         $staduim = Staduim::create($request->validated());
-        if ($request->hasFile('media')) {
-            $staduim->addMediaFromRequest('media')->toMediaCollection('staduims');
-        }
+        add_media($staduim, $request, 'staduims');
         return messageResponse();
     }
 
@@ -43,9 +41,7 @@ class StaduimsController extends Controller
     public function update(StduimRequest $request, Staduim $staduim)
     {
         $staduim->update($request->validated());
-        if ($request->hasFile('media')) {
-            $staduim->addMediaFromRequest('media')->toMediaCollection('staduims');
-        }
+        add_media($staduim, $request, 'staduims');
         return messageResponse();
     }
 

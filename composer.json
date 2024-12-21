@@ -36,7 +36,8 @@
         },
         "files": [
             "app/Helpers/ResponseFormat.php",
-            "app/Helpers/GlobalVariables.php"
+            "app/Helpers/GlobalVariables.php",
+            "app/Helpers/MethodsHelper.php"
         ]
     },
     "autoload-dev": {

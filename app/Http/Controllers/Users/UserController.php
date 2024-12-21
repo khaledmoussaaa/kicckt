@@ -47,9 +47,7 @@ class UserController extends Controller
     public function update(UserRequest $request)
     {
         auth_user()->update($request->validated());
-        if ($request->hasFile('media')) {
-            auth_user()->addMediaFromRequest('media')->toMediaCollection('avatar');
-        }
+        add_media(auth_user(), $request, 'avatar');
         return messageResponse();
     }
 

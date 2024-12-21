@@ -15,7 +15,7 @@ class PlayerMonthController extends Controller
         // Retrieve users with their player_months for the specified month
         $players = User::whereHas('player_months', function ($query) use ($date) {
             $query->whereMonth('created_at', $date);
-        })->with('media')->get();
+        })->get();
 
         // Check if there are no player_months for the month
         if ($players->isEmpty()) {
@@ -48,6 +48,6 @@ class PlayerMonthController extends Controller
         // Reset the keys of the collection after the push
         $topUsers = $topUsers->values();
 
-        return contentResponse($topUsers);
+        return contentResponse($topUsers->load('media'));
     }
 }
