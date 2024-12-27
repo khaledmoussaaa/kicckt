@@ -77,7 +77,7 @@ class MatchGame extends BaseModel
         // Transform the collection
         $matches->getCollection()->transform(function ($match) {
             $match->joins = $match->joins->transform(function ($join) {
-                return $join->players;
+                return $join->user;
             });
 
             return $match;
