@@ -56,7 +56,7 @@ class MatchGame extends BaseModel
         $date = $date ? Carbon::parse($date) : Carbon::now();
 
         // Build the query
-        $query = self::with(['joins.players.media', 'staduim.media'])
+        $query = self::with(['joins.user.media', 'staduim.media'])
             ->whereDate('date', $date);
 
         // Apply the "is_finished" filter if provided
@@ -66,7 +66,7 @@ class MatchGame extends BaseModel
 
         // Apply the user filter if provided (for the "previous" method)
         if ($userId) {
-            $query->whereHas('joins.players', function ($query) use ($userId) {
+            $query->whereHas('joins.user', function ($query) use ($userId) {
                 $query->where('user_id', $userId);
             });
         }
