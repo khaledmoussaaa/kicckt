@@ -26,7 +26,7 @@ class JoinController extends Controller
     {
         $join = Join::create($request->validated() + ['user_id' => auth_id()]);
         $join->match()->increment('joining_numbers');
-        return messageResponse();
+        return contentResponse($join);
     }
 
     /**
