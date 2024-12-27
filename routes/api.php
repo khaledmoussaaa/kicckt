@@ -38,20 +38,15 @@ Route::group(['middleware' => 'api'], function () {
 
         // Matches
         Route::apiResource('matches', 'Matches\MatchController');
-        Route::post('matches/start/finish', 'Matches\MatchController@startFinishMatch');
-        Route::post('matches/end/finish/{match}', 'Matches\MatchController@endFinishMatch');
+        Route::post('matches/finish/match/{match}', 'Matches\MatchController@finish');
         Route::get('previous/matches', 'Matches\MatchController@pervious');
 
         // Joins
-        Route::apiResource('joins', 'Players\JoinController');
-        Route::get('joins/team/{match_id}/{team_color}', 'Players\JoinController@index')->name('joins.index');
-        Route::put('joins/replace/{player_1}/{player_2}', 'Players\JoinController@update')->name('joins.update');
+        Route::apiResource('joins', 'Joins\JoinController');
+        Route::put('joins/replace/{join_1}/{join_2}', 'Joins\JoinController@replace')->name('joins.replace');
 
         // Players
         Route::get('player/months/{date}/{type}', 'Players\PlayerMonthController@playerMonths');
-
-        // Statistics Match
-        Route::apiResource('statistics', 'Matches\StatisticController');
 
         // Prizes
         Route::apiResource('prizes', 'Prizes\PrizeController');

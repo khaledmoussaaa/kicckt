@@ -32,7 +32,7 @@ class AuthController extends Controller
     // Get the authenticated User.
     public function me()
     {
-        return contentResponse(array_merge(auth()->user()->load('media')->toArray(), ['is_new' => auth_user()->wasRecentlyCreated, 'role' => auth_user()->roles[0]->name ?? 'user']));
+        return contentResponse(auth()->user()->load('media')->toArray() + ['is_new' => auth_user()->wasRecentlyCreated, 'role' => auth_user()->roles[0]->name ?? 'user']);
     }
 
     // Refresh a token.

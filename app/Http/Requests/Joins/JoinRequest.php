@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Games;
+namespace App\Http\Requests\Joins;
 
 use App\Rules\UserNotInAnotherGame;
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,8 +24,8 @@ class JoinRequest extends FormRequest
     {
         return [
             // Validations for joining in new match
-            'match_id' => ['required', 'integer', 'exists:match_games,id'],
             'team_color' => 'required|in:red,purple',
+            'match_id' => 'required|integer|exists:match_games,id',
         ];
     }
 }

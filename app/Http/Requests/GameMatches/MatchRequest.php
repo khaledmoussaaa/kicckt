@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Games;
+namespace App\Http\Requests\GameMatches;
 
 use App\Rules\UniqueMatch;
 use Illuminate\Foundation\Http\FormRequest;

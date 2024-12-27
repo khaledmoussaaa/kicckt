@@ -2,12 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Join extends Model
+class Join extends BaseModel
 {
-    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -15,10 +11,13 @@ class Join extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'goals',
+        'assists',
+        'goal_keeper',
         'team_color',
         'status',
-        'match_id',
         'user_id',
+        'match_id',
     ];
 
     /**
@@ -33,7 +32,7 @@ class Join extends Model
 
     // ======================= Relationships ======================= //
     // players -> For each match hasMany players in match and for each player has one match
-    public function players()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\DateTimeCasting;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class BaseModel extends Model implements HasMedia
 {
     use HasFactory, Notifiable, InteractsWithMedia;
+
     /**
      * The default attributes that should be cast.
      * These will be merged with the model-specific casts.
@@ -31,5 +33,11 @@ class BaseModel extends Model implements HasMedia
     public function getCasts()
     {
         return array_merge($this->defaultCasts, $this->casts);
+    }
+
+    // ========================== Scopes ======================= //
+    protected function scopeMatchScope(Builder $query, $request)
+    {
+        return $query->where('match_id', $request->match_id);
     }
 }

@@ -34,12 +34,7 @@ class UniqueMatch implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         // Check if a match already exists with the same stadium, date, time_from, and time_to
-        $exists = DB::table('match_games')
-            ->where('staduim_id', $this->staduim_id)
-            ->where('date', $this->date)
-            ->where('time_from', $this->time_from)
-            ->where('time_to', $this->time_to)
-            ->exists();
+        $exists = DB::table('match_games')->where([['staduim_id', $this->staduim_id], ['date', $this->date], ['time_from', $this->time_from], ['time_to', $this->time_to]])->exists();
 
         // If a match exists, fail the validation
         if ($exists) {

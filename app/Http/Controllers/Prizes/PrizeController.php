@@ -17,7 +17,6 @@ class PrizeController extends Controller
     public function index()
     {
         $date = Carbon::now();
-
         $currentPlayer = auth_user()->load(['media', 'player_months' => function ($query) use ($date) {
             $query->whereMonth('created_at', $date);
         }]);

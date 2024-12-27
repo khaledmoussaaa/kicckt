@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Users;
+namespace App\Http\Requests\Joins;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUser extends FormRequest
+class JoinUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,9 @@ class CreateUser extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'required|image',
-            'name' => 'required|string|min:3|max:25',
+            'goals' => 'sometimes|integer',
+            'assists' => 'sometimes|integer',
+            'goal_keeper' => 'sometimes|integer',
         ];
     }
 }

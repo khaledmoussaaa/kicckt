@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Games;
+namespace App\Http\Requests\GameMatches;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EndFinishMatchRequest extends FormRequest
+class EndMatchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,13 @@ class EndFinishMatchRequest extends FormRequest
             'red_goals' => 'required|integer',
             'man_of_the_match' => 'nullable|exists:users,id',
             'google_drive_link' => 'nullable|url',
-            'match_id' => 'required|integer|exists:match_games,id',
+            'joins' => 'required|array',
+            'joins.*.id' => 'required|integer|exists:joins,id',
+            'joins.*.goals' => 'nullable|integer',
+            'joins.*.assists' => 'nullable|integer',
+            'joins.*.goal_keeper' => 'nullable|integer',
+            'joins.*.user_id' => 'required|integer|exists:users,id',
+            'joins.*.match_id' => 'required|integer|exists:match_games,id',
         ];
     }
 }
