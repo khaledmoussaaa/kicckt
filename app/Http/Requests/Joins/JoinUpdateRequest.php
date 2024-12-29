@@ -25,6 +25,7 @@ class JoinUpdateRequest extends FormRequest
             'goals' => 'sometimes|integer',
             'assists' => 'sometimes|integer',
             'goal_keeper' => 'sometimes|integer',
+            
         ];
     }
 }

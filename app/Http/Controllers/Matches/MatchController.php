@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GameMatches\EndMatchRequest;
 use App\Http\Requests\GameMatches\MatchRequest;
 use App\Models\MatchGame;
+use App\Models\PlayerMonth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -68,7 +69,18 @@ class MatchController extends Controller
     public function finish(EndMatchRequest $request, MatchGame $match)
     {
         $joins = collect($request->input('joins'))->toArray();
-        $joins = $match->joins()->upsert($joins, ['id'], ['id', 'goals', 'assists', 'goal_keeper', 'user_id']);
+        $joinsData = $match->joins()->upsert($joins, ['id'], ['id', 'goals', 'assists', 'goal_keeper', 'user_id']);
+        foreach ($joins as $join) {
+            $playerMonth = PlayerMonth::where('user_id', $join['user_id'])->whereMonth('created_at', now())->first();
+            if (!$playerMonth) {
+                $playerMonth = PlayerMonth::create($join);
+            } else {
+                $test = collect($join)->except(['match_id', 'id', 'user_id'])->toArray();
+                $playerMonth->incrementEach($test);
+            }
+            $points = ($playerMonth->goals * 3) + ($playerMonth->assists * 2) + ($playerMonth->goal_keeper * 1);
+            $playerMonth->update(['points' => $points]);
+        }
         $match->update($request->validated() + ['is_finished' => 1]);
         return messageResponse();
     }

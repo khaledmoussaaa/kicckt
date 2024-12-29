@@ -42,6 +42,7 @@ class JoinController extends Controller
      */
     public function update(JoinUpdateRequest $request, Join $join)
     {
+        
         return messageResponse();
     }
 

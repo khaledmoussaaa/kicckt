@@ -53,15 +53,16 @@ class MatchGame extends BaseModel
     public static function getMatches($date = null, $isFinished = null, $userId = null)
     {
         // If a date is passed, use it; otherwise, use the current date
-        $date = $date ? Carbon::parse($date) : Carbon::now();
+        $date = Carbon::parse($date);
 
         // Build the query
-        $query = self::with(['joins.user.media', 'staduim.media'])
-            ->whereDate('date', $date);
+        $query = self::with(['joins.user.media', 'staduim.media']);
 
         // Apply the "is_finished" filter if provided
         if ($isFinished !== null) {
             $query->where('is_finished', $isFinished);
+        } else {
+            $query->whereDate('date', $date);
         }
 
         // Apply the user filter if provided (for the "previous" method)
@@ -79,7 +80,6 @@ class MatchGame extends BaseModel
             $match->joins = $match->joins->transform(function ($join) {
                 return $join->user;
             });
-
             return $match;
         });
 
