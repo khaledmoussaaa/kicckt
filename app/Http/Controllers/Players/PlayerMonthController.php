@@ -14,7 +14,7 @@ class PlayerMonthController extends Controller
         // Retrieve users with their player_months for the specified month
         $players = User::whereHas('player_months', function ($query) use ($date) {
             $query->whereMonth('created_at', $date);
-        })->whereRoleIs('user')->with('media')->get();
+        })->whereDoesntHaveRole('admin')->with('media')->get();
 
         // Check if there are no player_months for the month
         if ($players->isEmpty()) {
