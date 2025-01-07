@@ -12,15 +12,15 @@ class PlayerMonthController extends Controller
     {
         $date = Carbon::parse($date);
         // Retrieve users with their player_months for the specified month
-        $players = User::whereRoleIs('user')->whereHas('player_months', function ($query) use ($date) {
+        $players = User::whereHas('player_months', function ($query) use ($date) {
             $query->whereMonth('created_at', $date);
-        })->with('media')->get();
+        })->WhereHasRole(['superadmin'])->with('media')->get();
 
         // Check if there are no player_months for the month
         if ($players->isEmpty()) {
-            $playerMonths = User::whereRoleIs('admin')->with(['player_months' =>  function ($query) use ($date) {
+            $playerMonths = User::with(['player_months' =>  function ($query) use ($date) {
                 $query->whereMonth('created_at', $date);
-            }])->with('media')->get()->sortBy('name')->values();
+            }])->WhereHasRole('user')->with('media')->get()->sortBy('name')->values()->flatten();
         } else {
             $playerMonths = $players->load('player_months')->sortByDesc(function ($user) use ($type) {
                 return $user->player_months->sum($type);

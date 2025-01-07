@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laratrust\Contracts\LaratrustUser;
+use Laratrust\Traits\HasLaratrustScopes;
 use Laratrust\Traits\HasRolesAndPermissions;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class User extends Authenticatable implements JWTSubject, HasMedia, LaratrustUser
 {
-    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia, SoftDeletes, HasRolesAndPermissions;
+    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia, SoftDeletes, HasRolesAndPermissions, HasLaratrustScopes;
 
     /**
      * The attributes that are mass assignable.
