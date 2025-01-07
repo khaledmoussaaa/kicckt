@@ -18,7 +18,7 @@ class PlayerMonthController extends Controller
 
         // Check if there are no player_months for the month
         if ($players->isEmpty()) {
-            $playerMonths = User::with(['player_months' =>  function ($query) use ($date) {
+            $playerMonths = User::whereDoesntHaveRole('admin')->with(['player_months' =>  function ($query) use ($date) {
                 $query->whereMonth('created_at', $date);
             }])->with('media')->get()->sortBy('name')->values();
         } else {
