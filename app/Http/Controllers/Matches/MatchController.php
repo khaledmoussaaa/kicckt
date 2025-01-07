@@ -42,7 +42,7 @@ class MatchController extends Controller
             $join->user->join_id = $join->id;
             return $join->user;
         });
-        return contentResponse($match->load('manOfMatch'));
+        return contentResponse($match->load('manOfMatch.media'));
     }
 
     /**
