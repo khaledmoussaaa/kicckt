@@ -18,6 +18,7 @@ class AuthController extends Controller
     {
         $user = User::firstOrCreate($request->validated());
         $token = auth()->login($user);
+        $user->syncRoles(['user']);
         return authResponse($token, $user->wasRecentlyCreated);
     }
 
