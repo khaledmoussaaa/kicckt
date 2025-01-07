@@ -51,7 +51,7 @@ class MatchGame extends BaseModel
     // players -> For each match hasMany players in match and for each player has one match
     public function manOfMatch()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'man_of_the_match');
     }
 
 
