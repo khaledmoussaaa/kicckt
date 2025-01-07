@@ -14,6 +14,7 @@ class Staduim extends BaseModel
         'area',
         'location',
         'players_number',
+        'old_price',
         'price',
     ];
 

@@ -17,10 +17,9 @@ return new class extends Migration
             $table->string('staduim_name');
             $table->string('area')->nullable();
             $table->string('location')->nullable();
-            $table->enum('players_number', [12, 14, 18, 22])->default(12);
-            $table->integer('sales')->default(0);
-            $table->double('price');
-
+            $table->enum('players_number', [12, 14, 18, 24])->default(12);
+            $table->integer('old_price')->default(0);
+            $table->integer('price')->default(0);
             $table->timestamps();
         });
     }
