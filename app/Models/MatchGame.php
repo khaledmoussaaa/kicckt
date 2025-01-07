@@ -18,7 +18,7 @@ class MatchGame extends BaseModel
         'time_from',
         'time_to',
         'red_goals',
-        'purble_goals',
+        'purple_goals',
         'joining_numbers',
         'man_of_the_match',
         'google_drive_link',

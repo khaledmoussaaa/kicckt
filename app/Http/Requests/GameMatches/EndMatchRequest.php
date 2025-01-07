@@ -22,8 +22,8 @@ class EndMatchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'purple_goals' => 'required|integer',
             'red_goals' => 'required|integer',
+            'purple_goals' => 'required|integer',
             'man_of_the_match' => 'nullable|exists:users,id',
             'google_drive_link' => 'nullable|url',
             'joins' => 'required|array',
