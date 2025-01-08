@@ -16,9 +16,9 @@ class UserSeeder extends Seeder
         // Super Admin
         $user = User::create([
             'name' => 'Khalil Mohamed',
-            'email' => 'khalilmohamed@gmail.com',
+            'email' => 'khalilmohabulail@gmail.com',
             'phone' => '01015571129',
-            'social_id' => '123456789'
+            'social_id' => '109166918267821418640'
         ]);
         $user->syncRoles(['superadmin']);
     }
