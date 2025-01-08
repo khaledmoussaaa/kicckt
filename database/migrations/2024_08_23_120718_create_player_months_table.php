@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('assists')->default(0);
             $table->integer('goal_keeper')->default(0);
             $table->integer('points')->default(0);
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
