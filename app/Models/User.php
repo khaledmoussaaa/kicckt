@@ -91,8 +91,8 @@ class User extends Authenticatable implements JWTSubject, HasMedia, LaratrustUse
         return $this->hasMany(PlayerMonth::class);
     }
 
-    public function playerOfCurrentMonth()
+    public function player_month()
     {
-        return $this->hasOne(PlayerMonth::class, 'user_id')->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year);
+        return $this->hasOne(PlayerMonth::class, 'user_id');
     }
 }

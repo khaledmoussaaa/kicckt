@@ -28,7 +28,7 @@ class StduimRequest extends FormRequest
             'area' => 'required|string',
             'location' => 'required|url',
             'players_number' => 'required|integer',
-            'old_price' => 'required|numeric',
+            'old_price' => 'nullable|numeric',
             'price' => 'required|numeric',
         ];
     }
