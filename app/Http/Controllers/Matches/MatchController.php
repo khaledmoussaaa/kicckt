@@ -69,19 +69,37 @@ class MatchController extends Controller
     public function finish(EndMatchRequest $request, MatchGame $match)
     {
         $joins = collect($request->input('joins'))->toArray();
+
+        // Upsert the join data for the match
         $joinsData = $match->joins()->upsert($joins, ['id'], ['id', 'goals', 'assists', 'goal_keeper', 'user_id']);
+
         foreach ($joins as $join) {
-            $playerMonth = PlayerMonth::where('user_id', $join['user_id'])->whereMonth('created_at', now())->first();
+            // Find or create the PlayerMonth record for the current user
+            $playerMonth = PlayerMonth::where('user_id', $join['user_id'])
+                ->whereMonth('created_at', now())
+                ->first();
+
+            // If the PlayerMonth record doesn't exist, create it
             if (!$playerMonth) {
                 $playerMonth = PlayerMonth::create($join);
             } else {
-                $test = collect($join)->except(['match_id', 'id', 'user_id'])->toArray();
-                $playerMonth->incrementEach($test);
+                // Increment individual stats for the player without merging all fields
+                $playerMonth->increment('goals', $join['goals']);
+                $playerMonth->increment('assists', $join['assists']);
+                $playerMonth->increment('goal_keeper', $join['goal_keeper']);
             }
+
+            // Calculate the points based on the updated stats
             $points = ($playerMonth->goals * 3) + ($playerMonth->assists * 2) + ($playerMonth->goal_keeper * 1);
+
+            // Update the points
             $playerMonth->update(['points' => $points]);
         }
+
+        // Update the match as finished
         $match->update($request->validated() + ['is_finished' => 1]);
+
+        // Return success response
         return messageResponse();
     }
 
