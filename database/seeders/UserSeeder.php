@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     {
         // Super Admin
         $user = User::create([
-            'name' => 'Khalil Mohamed',
+            'name' => 'Khalil',
             'email' => 'khalilmohabulail@gmail.com',
             'phone' => '01015571129',
             'social_id' => '109166918267821418640'
