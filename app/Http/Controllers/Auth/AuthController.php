@@ -18,7 +18,9 @@ class AuthController extends Controller
     {
         $user = User::firstOrCreate($request->validated());
         $token = auth()->login($user);
-        $user->syncRoles(['user']);
+        if(!$user->hasRole('superadmin')){
+            $user->syncRoles(['user']);
+        }
         return authResponse($token, $user->wasRecentlyCreated);
     }
 
