@@ -13,7 +13,7 @@ class StaduimsController extends Controller
      */
     public function index()
     {
-        $staduims = Staduim::paginate(10);
+        $staduims = Staduim::get();
         return contentResponse($staduims->load('media'));
     }
 
