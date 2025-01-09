@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Players;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Mail\Mailables\Content;
 
 class PlayerMonthController extends Controller
 {
@@ -14,26 +15,24 @@ class PlayerMonthController extends Controller
         $date = Carbon::parse($date);
 
         // Retrieve users with their player_months for the specified month
-        $players = User::with('media')->withWhereHas('player_month', function ($query) use ($date) {
+        $players = User::with('media')->with('player_month', function ($query) use ($date) {
             $query->whereMonth('created_at', $date);
-        })->get();
+        })->WhereHasRole('user')->get();
 
-        // If no players have player_months for the specified month, get all users
-        if ($players->isEmpty()) {
-            $playerMonths = User::with(['media', 'player_month' => function ($query) use ($date) {
-                $query->whereMonth('created_at', $date);
-            }])->WhereHasRole('user')->get()->sortBy('name')->values()->flatten();
-        } else {
-            // Sort players by the specified dynamic field (goals, assists, points)
-            $playerMonths = $players->sortByDesc(function ($user) use ($type) {
-                // Check if the player has a player_month record for the given month
-                if ($user->player_month) {
-                    // Access the specific type field (goals, assists, points)
-                    return $user->player_month->$type;  // Access dynamically based on $type
-                }
-                return 0; // If no player_month exists, return 0 for sorting
-            })->values();
-        }
+        // Sort players by player_month (goals, assists, points) or by name alphabetically
+        $playerMonths = $players->sortByDesc(function ($user) use ($type) {
+            // If player_month exists, return the type field value (goals, assists, points)
+            if ($user->player_month) {
+                return $user->player_month->$type;
+            }
+
+            // If no player_month exists, return null to push them to the bottom
+            return null;
+        })->sortBy(function ($user) {
+            // If player_month is null, sort by name alphabetically
+            return $user->player_month ? null : $user->name;
+        })->values();
+
 
         // Transform to assign ranks to users
         $topPlayers = $playerMonths->transform(function ($user, $index) {
@@ -48,7 +47,7 @@ class PlayerMonthController extends Controller
         $topUsers = $topPlayers->take(7);
 
         // Check if the authenticated user is already in the top 7
-        if (!$authUser || $authUser->rank > 7) {
+        if ((isset($authUser)) && (!$authUser || $authUser->rank > 7)) {
             $topUsers->push($authUser);
         }
 
