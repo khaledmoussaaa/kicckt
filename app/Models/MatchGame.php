@@ -51,9 +51,8 @@ class MatchGame extends BaseModel
     // players -> For each match hasMany players in match and for each player has one match
     public function manOfTheMatch()
     {
-        return $this->belongsTo(User::class, 'man_of_the_match');
+        return $this->belongsTo(User::class, 'man_of_the_match')->withTrashed();
     }
-
 
     // Method to retrieve and transform the matches
     public static function getMatches($date = null, $isFinished = null, $userId = null)

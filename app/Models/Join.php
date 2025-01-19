@@ -15,7 +15,7 @@ class Join extends BaseModel
         'assists',
         'goal_keeper',
         'team_color',
-        'status',
+        'position',
         'user_id',
         'match_id',
     ];
@@ -34,7 +34,7 @@ class Join extends BaseModel
     // players -> For each match hasMany players in match and for each player has one match
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id')->withTrashed();
     }
 
     // matches -> For each join game hasMany match 

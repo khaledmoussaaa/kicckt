@@ -25,6 +25,7 @@ class JoinRequest extends FormRequest
         return [
             // Validations for joining in new match
             'team_color' => 'required|in:red,purple',
+            'position' => 'required|string',
             'match_id' => 'required|integer|exists:match_games,id',
         ];
     }
