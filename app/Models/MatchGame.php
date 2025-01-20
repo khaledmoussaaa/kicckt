@@ -78,7 +78,7 @@ class MatchGame extends BaseModel
         }
 
         // Paginate the results
-        $matches = $query->paginate(10);
+        $matches = $query->latest()->paginate(10);
 
         // Transform the collection
         $matches->getCollection()->transform(function ($match) {
