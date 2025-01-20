@@ -40,6 +40,7 @@ class MatchController extends Controller
         $match->joins->transform(function ($join) {
             $join->user->team_color = $join->team_color;
             $join->user->join_id = $join->id;
+            $join->user->position = $join->position;
             return $join->user;
         });
         return contentResponse($match->load('manOfTheMatch.media'));
