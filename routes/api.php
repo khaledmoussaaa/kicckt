@@ -59,5 +59,5 @@ Route::group(['middleware' => 'api'], function () {
 });
 // Date
 Route::get('date', function () {
-    return contentResponse(['Date' => now()->format('d-m-Y h:m A')]);
+    return contentResponse(['Date' => now()->format('d-m-Y h:i A')]);
 });
