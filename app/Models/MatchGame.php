@@ -77,8 +77,12 @@ class MatchGame extends BaseModel
             });
         }
 
+        if ($isFinished) {
+            $matches = $query->latest();
+        }
+
         // Paginate the results
-        $matches = $query->latest()->paginate(10);
+        $matches = $query->paginate(10);
 
         // Transform the collection
         $matches->getCollection()->transform(function ($match) {
