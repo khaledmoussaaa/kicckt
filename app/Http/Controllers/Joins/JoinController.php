@@ -42,7 +42,7 @@ class JoinController extends Controller
      */
     public function update(JoinUpdateRequest $request, Join $join)
     {
-        
+
         return messageResponse();
     }
 
@@ -51,9 +51,10 @@ class JoinController extends Controller
      */
     public function replace(Join $join_1, Join $join_2)
     {
-        $join_temp = $join_1;
+        $team_color = $join_1->team_color;
+        $team_position = $join_1->position;
         $join_1->update(['team_color' => $join_2->team_color, 'position' => $join_2->position]);
-        $join_2->update(['team_color' => $join_temp->team_color, 'position' => $join_temp->position]);
+        $join_2->update(['team_color' => $team_color, 'position' => $team_position]);
         return messageResponse();
     }
 
