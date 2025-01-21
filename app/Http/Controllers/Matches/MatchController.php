@@ -91,7 +91,8 @@ class MatchController extends Controller
             }
 
             // Calculate the points based on the updated stats
-            $points = ($playerMonth->goals * 3) + ($playerMonth->assists * 1) + ($playerMonth->goal_keeper * 1);
+            $manOfMatch = $join['user_id'] == $request->user_id ? 15 : 0;
+            $points = ($playerMonth->goals * 3) + ($playerMonth->assists * 1) + ($playerMonth->goal_keeper * 1) + $manOfMatch;
 
             // Update the points
             $playerMonth->update(['points' => $points]);
