@@ -51,9 +51,9 @@ class JoinController extends Controller
      */
     public function replace(Join $join_1, Join $join_2)
     {
-        $team_color = $join_1->team_color;
-        $join_1->update(['team_color' => $join_2->team_color]);
-        $join_2->update(['team_color' => $team_color]);
+        $join_temp = $join_1;
+        $join_1->update(['team_color' => $join_2->team_color, 'position' => $join_2->position]);
+        $join_2->update(['team_color' => $join_temp->team_color, 'position' => $join_temp->position]);
         return messageResponse();
     }
 
