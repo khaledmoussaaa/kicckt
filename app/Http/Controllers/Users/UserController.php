@@ -15,7 +15,6 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $query = User::query();
-
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -30,7 +29,6 @@ class UserController extends Controller
         $users = $query->with('media')->paginate(10);
         return contentResponse($users);
     }
-
 
     /**
      * Display the specified resource.
@@ -56,7 +54,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->forceDelete();
+        $user->update(['deleted' => 1]);
+        $user->delete();
         return messageResponse();
     }
 }

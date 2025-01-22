@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('match_games', function (Blueprint $table) {
             $table->id();
-
             $table->string('match_name');
             $table->date('date');
             $table->time('time_from');
@@ -21,13 +20,11 @@ return new class extends Migration
             $table->integer('red_goals')->default(0);
             $table->integer('purple_goals')->default(0);
             $table->integer('joining_numbers')->default(0);
-            $table->foreignId('man_of_the_match')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('man_of_the_match')->nullable()->constrained('users');
             $table->string('google_drive_link')->nullable();
             $table->integer('is_finished')->default(false);
             $table->foreignId('staduim_id')->constrained('staduims')->onDelete('cascade');
-
             $table->timestamps();
-
             // Add a unique constraint for the combination of date, time_from, time_to, and staduim_id
             $table->unique(['staduim_id', 'date', 'time_from', 'time_to']);
         });

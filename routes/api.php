@@ -55,9 +55,10 @@ Route::group(['middleware' => 'api'], function () {
         // Ads
         Route::apiResource('ads', 'Ads\AdsController');
         Route::post('ads/{ad}', 'Ads\AdsController@update')->name('ads.update');
+
+        // Date
+        Route::get('date', function () {
+            return contentResponse(['Date' => now()->format('d-m-Y h:i A')]);
+        });
     });
-});
-// Date
-Route::get('date', function () {
-    return contentResponse(['Date' => now()->format('d-m-Y h:i A')]);
 });

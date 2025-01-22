@@ -15,7 +15,7 @@ class UserSocialite implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $user = User::withTrashed()->where($attribute, $value)->first();
+        $user = User::withTrashed()->where([[$attribute, $value], ['deleted', 0]])->first(); //All Users Block or Unblock
         if ($user && $user->deleted_at) {
             $fail('blocked');
         }

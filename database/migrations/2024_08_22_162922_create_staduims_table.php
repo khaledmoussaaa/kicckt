@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('staduims', function (Blueprint $table) {
             $table->id();
-
             $table->string('staduim_name');
             $table->string('area')->nullable();
             $table->string('location')->nullable();
