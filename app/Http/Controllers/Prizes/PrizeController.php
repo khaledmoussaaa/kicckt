@@ -41,12 +41,17 @@ class PrizeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PlayerPrizesRequest  $request)
+    public function store(PlayerPrizesRequest $request)
     {
-        $prize = Prize::updateOrCreate($request->safe()->only('user_id'));
-        if ($request->has('media')) {
-            $prize->addMediaFromRequest('media')->toMediaCollection('beautiful_goal');
+        $prize = Prize::find($request->id);
+        if(!$prize){
+            Prize::create($request->safe()->only(['user_id']));
+        }else{
+            $prize->update(['user_id' => $request->validated('user_id')]);
         }
+        // if ($request->has('media')) {
+        //     $prize->addMediaFromRequest('media')->toMediaCollection('beautiful_goal');
+        // }
         return messageResponse();
     }
 

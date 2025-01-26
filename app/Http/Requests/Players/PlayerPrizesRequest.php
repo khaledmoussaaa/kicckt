@@ -22,6 +22,7 @@ class PlayerPrizesRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => 'nullable|integer',
             'media' => 'required|file|mimes:jpeg,png,jpg,gif,mp4,avi,mov,wmv,webm',
             'user_id' => 'required|integer|exists:users,id'
         ];
