@@ -49,9 +49,9 @@ class PrizeController extends Controller
         }else{
             $prize->update(['user_id' => $request->validated('user_id')]);
         }
-        // if ($request->has('media')) {
-        //     $prize->addMediaFromRequest('media')->toMediaCollection('beautiful_goal');
-        // }
+        if ($request->has('media')) {
+            $prize->addMediaFromRequest('media')->toMediaCollection('beautiful_goal');
+        }
         return messageResponse();
     }
 
