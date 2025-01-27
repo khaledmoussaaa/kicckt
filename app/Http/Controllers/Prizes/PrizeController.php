@@ -44,15 +44,15 @@ class PrizeController extends Controller
     public function store(PlayerPrizesRequest $request)
     {
         $prize = Prize::find($request->id);
-        if(!$prize){
+        if (!$prize) {
             Prize::create($request->safe()->only(['user_id']));
-        }else{
+        } else {
             $prize->update(['user_id' => $request->validated('user_id')]);
             if ($request->has('media')) {
                 $prize->addMediaFromRequest('media')->toMediaCollection('beautiful_goal');
             }
         }
-       
+
         return messageResponse();
     }
 
