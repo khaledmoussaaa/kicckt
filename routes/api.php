@@ -20,7 +20,7 @@ Route::group(['middleware' => 'api'], function () {
     | Authorizations API Routes
     |--------------------------------------------------------------------------
     */
-    Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['middleware' => ['auth:api', 'user.block']], function () {
         Route::group(['prefix' => 'auth'], function () {
             Route::post('profile', 'Auth\AuthController@profile');
             Route::post('me', 'Auth\AuthController@me');
