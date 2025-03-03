@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Joins;
 
+use App\Events\PlayerJoin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Joins\JoinRequest;
 use App\Http\Requests\Joins\JoinUpdateRequest;
@@ -26,6 +27,7 @@ class JoinController extends Controller
     {
         $join = Join::create($request->validated() + ['user_id' => auth_id()]);
         $join->match()->increment('joining_numbers');
+        broadcast(new PlayerJoin());
         return contentResponse($join);
     }
 

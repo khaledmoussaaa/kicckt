@@ -4,13 +4,12 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PlayerJoin
+class PlayerJoin implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,7 +18,6 @@ class PlayerJoin
      */
     public function __construct()
     {
-        //
     }
 
     /**
@@ -27,10 +25,8 @@ class PlayerJoin
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn(): array
+    public function broadcastOn()
     {
-        return [
-            new PrivateChannel('channel-name'),
-        ];
+        return new Channel('test');
     }
 }

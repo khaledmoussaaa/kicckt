@@ -60,5 +60,7 @@ Route::group(['middleware' => 'api'], function () {
         Route::get('date', function () {
             return contentResponse(['Date' => now()->format('d-m-Y h:i A')]);
         });
+
+        Route::get('test', 'Joins\JoinController@test');
     });
 });
