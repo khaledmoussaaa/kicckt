@@ -48,8 +48,8 @@ class AuthController extends Controller
     public function blocked(BlockRequest $request)
     {
         $user = User::withTrashed()->find($request->validated('user_id'));
-        $blocked = $user->deleted_at ? 'User Unblocked' : 'User Blocked';
-        $user->deleted_at ? $user->restore() : $user->delete();
+        $blocked = $user->blocked ? 'User Unblocked' : 'User Blocked';
+        $user->update(['blocked' => $user->blocked ? 0 : 1]);
         return messageResponse($blocked);
     }
 

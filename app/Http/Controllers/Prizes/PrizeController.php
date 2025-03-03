@@ -20,6 +20,7 @@ class PrizeController extends Controller
         $currentPlayer = auth_user()->load(['media', 'player_months' => function ($query) use ($date) {
             $query->whereMonth('created_at', $date);
         }]);
+
         $playerOfPoints = PlayerMonth::with('user.media')->whereMonth('created_at', $date)->orderByDesc('points')->first();
         $playerOfGoals = PlayerMonth::with('user.media')->whereMonth('created_at', $date)->orderByDesc('goals')->first();
         $playerOfAssists = PlayerMonth::with('user.media')->whereMonth('created_at', $date)->orderByDesc('assists')->first();

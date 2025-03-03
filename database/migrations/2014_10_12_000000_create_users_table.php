@@ -17,15 +17,15 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('social_id');
             $table->string('phone')->nullable();
-            $table->boolean('deleted')->default(false);
             $table->integer('joining_numbers')->default(0);
             $table->integer('missing_numbers')->default(0);
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
+            $table->boolean('blocked')->default(false);
             $table->softDeletes();
             $table->timestamps();
 
-            $table->unique(['id', 'email', 'social_id', 'deleted']);
+            $table->unique(['id', 'email', 'social_id', 'deleted_at']);
         });
     }
 

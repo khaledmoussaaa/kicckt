@@ -44,10 +44,10 @@ class PlayerMonthController extends Controller
         $authUser = $topPlayers->firstWhere('id', auth()->id());
 
         // Get the top 7 users
-        $topUsers = $topPlayers->take(7);
+        $topUsers = $topPlayers->take(30);
 
         // Check if the authenticated user is already in the top 7
-        if ((isset($authUser)) && (!$authUser || $authUser->rank > 7)) {
+        if ((isset($authUser)) && (!$authUser || $authUser->rank > 30)) {
             $topUsers->push($authUser);
         }
 

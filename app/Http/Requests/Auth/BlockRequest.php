@@ -11,7 +11,7 @@ class BlockRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth_id() == 1;
     }
 
     /**

@@ -23,10 +23,14 @@ class UserController extends Controller
                     ->orWhere('phone', 'like', "%{$search}%");
             });
         }
-        if ($request->type == 'blocks') {
-            $query->onlyTrashed();
-        }
-        $users = $query->with('media')->paginate(10);
+
+        $query->when($request->type == 'blocks', function ($query) {
+            return $query->where('blocked', 1);
+        }, function ($query) {
+            return $query->where('blocked', 0);
+        });
+
+        $users = $query->where('id', '!=', 1)->with('media')->paginate(10);
         return contentResponse($users);
     }
 
@@ -54,7 +58,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->update(['deleted' => 1]);
         $user->delete();
         return messageResponse();
     }
