@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProfileRequest extends FormRequest
 {
@@ -25,7 +26,7 @@ class ProfileRequest extends FormRequest
             // Register Validations
             'media' => 'nullable|image',
             'name' => 'required|string|min:3|max:30',
-            'phone' => 'required|min:9|max:14|unique:users,phone',
+            'phone' => ['required','min:9', 'max:14', Rule::unique('users', 'phone')->whereNull('deleted_at')],
         ];
     }
 }
