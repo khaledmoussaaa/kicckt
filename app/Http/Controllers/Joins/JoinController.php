@@ -69,4 +69,10 @@ class JoinController extends Controller
         $join->forceDelete();
         return messageResponse();
     }
+
+    public function test()
+    {
+        broadcast(new PlayerJoin());
+        return messageResponse();
+    }
 }
