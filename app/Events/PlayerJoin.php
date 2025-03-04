@@ -25,6 +25,6 @@ class PlayerJoin implements ShouldBroadcast
      */
     public function broadcastOn(): Channel
     {
-        return new PrivateChannel('test.3'); // Ensure unique channel per chat
+        return new PrivateChannel('test.36'); // Ensure unique channel per chat
     }
 }
