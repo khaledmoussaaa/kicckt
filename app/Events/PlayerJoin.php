@@ -16,9 +16,10 @@ class PlayerJoin implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(public $join)
+    public function __construct(public $join, public $status)
     {
         $this->join = $join;
+        $this->status = $status;
     }
 
     /**
@@ -36,10 +37,23 @@ class PlayerJoin implements ShouldBroadcast
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastWith(): array
+    public function broadcastWith()
     {
-        return [
-           'content' => $this->join->load('user.media')
-        ];
+        return match ($this->status) {
+            'join' => [
+                'content' => $this->join->load('user.media'),
+                'success' => true,
+                'message' => 'success',
+                'status' => 200,
+                'isJoined' => true
+            ],
+            'unjoin' => [
+                'content' => ['id' => $this->join->id],
+                'success' => true,
+                'message' => 'success',
+                'status' => 200,
+                'isJoined' => false
+            ],
+        };
     }
 }
