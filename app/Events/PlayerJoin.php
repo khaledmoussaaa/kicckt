@@ -16,7 +16,10 @@ class PlayerJoin implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct() {}
+    public function __construct(public $join)
+    {
+        $this->join = $join;
+    }
 
     /**
      * Get the channels the event should broadcast on.
@@ -25,6 +28,18 @@ class PlayerJoin implements ShouldBroadcast
      */
     public function broadcastOn(): Channel
     {
-        return new PrivateChannel('test.36'); // Ensure unique channel per chat
+        return new PrivateChannel('match.' . $this->join->match_id); // Ensure unique channel per chat
+    }
+
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return array<int, \Illuminate\Broadcasting\Channel>
+     */
+    public function broadcastWith(): array
+    {
+        return [
+           'content' => $this->join->load('user.media')
+        ];
     }
 }

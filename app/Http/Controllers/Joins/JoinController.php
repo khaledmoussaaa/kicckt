@@ -27,7 +27,7 @@ class JoinController extends Controller
     {
         $join = Join::create($request->validated() + ['user_id' => auth_id()]);
         $join->match()->increment('joining_numbers');
-        broadcast(new PlayerJoin());
+        broadcast(new PlayerJoin($join));
         return contentResponse($join);
     }
 
@@ -44,7 +44,6 @@ class JoinController extends Controller
      */
     public function update(JoinUpdateRequest $request, Join $join)
     {
-
         return messageResponse();
     }
 

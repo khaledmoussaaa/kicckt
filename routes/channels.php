@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('test.{id}', function ($user, $id) {
-    return true;;
+Broadcast::channel('match.{id}', function ($user, $id) {
+    return true;
 });
